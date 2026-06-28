@@ -1,0 +1,217 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  display: grid;
+  place-items: center;
+  background-color: #ffffff;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.container {
+  max-width: 1440px;
+  width: 100%;
+  /* padding: 2rem 1rem; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.b1{
+  flex: 2;
+  padding: 5rem 8rem;
+  background-image: url("./images/bg-pattern-desktop.svg");
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.b1 .img1{
+  width: 150px;
+  align-self: flex-start;
+  margin-bottom: 7rem;
+}
+.dh1{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+  margin-bottom: 2rem;
+}
+.b1 .spa{
+  color: hsl(0, 36%, 70%);
+  align-self: flex-start;
+  text-align: left;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: 300;
+  font-size: 5rem;
+  margin-bottom: -1rem;
+}
+.b1 .h1{
+  color: hsl(0, 6%, 24%);
+  align-self: flex-start;
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 4rem;
+}
+.box2img{
+  width: 32rem;
+  height: 100vh;
+}
+.p{
+  font-size: 1.3rem;
+  text-align: left;
+  color: hsl(0, 36%, 70%);
+  font-weight: 400;
+  margin-bottom: 3rem;
+  font-family: sans-serif;
+}
+.input-group {
+  position: relative;
+  width: 30rem;
+  display: flex;
+  align-items: center;
+  margin-left: -3rem;
+}
+
+.input-email {
+  width: 100%;
+  padding: 1rem 2rem;
+  border-radius: 20rem;
+  border: 1px solid hsl(0, 36%, 70%);
+  outline: none;
+}
+
+.submit-btn {
+  position: absolute;
+  right: -1px; 
+  top: 0;
+  bottom: 0;
+  width: 6rem;
+  border-radius: 20rem;
+  border: none;
+  background: linear-gradient(135deg, hsl(0, 80%, 86%), hsl(0, 74%, 74%));
+  cursor: pointer;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 0; 
+}
+
+.submit-btn img {
+  width: auto;
+  height: 1.2rem;
+  margin: 0 auto; 
+  display: block;
+}
+
+/* --- شاشات الموبايل والتابلت (أقل من 768px) --- */
+@media (max-width: 768px) {
+  
+  .container {
+    flex-direction: column; /* ترتيب طبيعي من الأعلى للأسفل */
+    align-items: stretch;
+  }
+
+  /* جعل الشعار يظهر في البداية فوق صورة الفتاة مع مساحة مناسبة */
+  .b1 .img1 {
+    align-self: flex-start;
+    width: 100px;
+    margin: 2rem 0 2rem 2rem; /* مسافات الشعار حول الحواف */
+  }
+
+  /* صورة الفتاة تأتي ثانياً بعد الشعار مباشرة */
+  .b2 {
+    order: -1; /* يرفع حاوية الصورة لتصبح تحت الشعار مباشرة إذا لزم الأمر، لكن مع الهيكلة الجديدة يفضل جعلها تأخذ الترتيب الصحيح */
+    width: 100%;
+    height: auto;
+  }
+
+  .box2img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  /* حاوية النصوص وحقل الإدخال تأتي في النهاية */
+  .b1 {
+    width: 100%;
+    min-height: auto;
+    padding: 4rem 2rem;
+    background-image: none; /* إلغاء خلفية الديسكتوب تماماً لتصبح بيضاء كالتصميم */
+    background-color: #ffffff;
+    align-items: center;
+  }
+  
+  .dh1 {
+    margin-top: 0;
+    align-items: center;
+  }
+
+  .b1 .spa, 
+  .b1 .h1 {
+    font-size: 2.5rem; /* تصغير العناوين لتناسب مساحة الشاشة */
+    letter-spacing: 0.3rem;
+    align-self: center;
+    text-align: center;
+  }
+
+  .b1 .spa {
+    margin-bottom: 0.5rem;
+  }
+
+  .p {
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 100%;
+  }
+
+  /* حقل الإدخال مرن ومطابق تماماً لشكل التصميم البيضاوي */
+  .input-group {
+    width: 100%; 
+    max-width: 100%;
+    height: 3.2rem;
+    margin-left: 0; /* إزالة الإزاحة السالبة للديسكتوب */
+  }
+  
+  .input-email {
+    padding: 0 5.5rem 0 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .submit-btn {
+    width: 4.5rem; /* حجم متناسق للزر في الموبايل */
+  }
+}

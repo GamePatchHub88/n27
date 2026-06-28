@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maison Soleil - Bienvenue</title>
+    <link rel="shortcut icon" href="images/favicon-32x32.png" type="image/png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --bg-main: #fbf6f0;
+            --sidebar-bg: #f6efe6;
+            --text-dark: #2d2926;
+            --text-muted: #706a65;
+            --accent-orange: #b8522b;
+            --accent-light-orange: #f4eae1;
+            --card-white: #ffffff;
+            --weather-bg: #f4d078;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        aside {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            padding: 30px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid rgba(0, 0, 0, 0.05);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+
+        .logo-container img {
+            width: 130px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 12px 16px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        nav a:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+            color: var(--text-dark);
+        }
+
+        nav li.active a {
+            background-color: var(--card-white);
+            color: var(--text-dark);
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+
+        nav li.active a::after {
+            content: '1';
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--accent-orange);
+            color: white;
+            font-size: 11px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        nav a img {
+            width: 18px;
+            height: 18px;
+            opacity: 0.7;
+        }
+
+        nav li.active a img {
+            opacity: 1;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .weather-widget {
+            background-color: var(--weather-bg);
+            border-radius: 12px;
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(244, 208, 120, 0.2);
+        }
+
+        .weather-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .weather-temp {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .weather-desc {
+            font-size: 12px;
+            color: rgba(0, 0, 0, 0.6);
+            font-weight: 500;
+        }
+
+        .weather-widget .sun-illustration {
+            position: absolute;
+            right: -10px;
+            bottom: -10px;
+            width: 70px;
+            height: 70px;
+            opacity: 0.9;
+        }
+
+        .sidebar-info {
+            font-size: 10px;
+            color: #a09890;
+            line-height: 1.6;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-top: 1px dashed rgba(0, 0, 0, 0.1);
+            padding-top: 16px;
+        }
+
+        /* Main Content Styling */
+        main {
+            margin-left: 260px;
+            flex-1: 1;
+            padding: 40px 60px;
+            width: calc(100% - 260px);
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+        }
+
+        .subtitle {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .main-title em {
+            font-style: italic;
+            color: var(--accent-orange);
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-dark);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+            border-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-dark {
+            background-color: #23201e;
+            color: #ffffff;
+        }
+
+        .btn-dark:hover {
+            background-color: #000000;
+        }
+
+        /* Cards Presentation Section (Fanning Cards) */
+        .cards-display-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 60px;
+            perspective: 1000px;
+        }
+
+        .cards-wrapper {
+            position: relative;
+            width: 620px;
+            height: 400px;
+            margin-bottom: 20px;
+        }
+
+        /* Base Card Styling */
+        .fanned-card {
+            position: absolute;
+            width: 320px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease;
+        }
+
+        /* Receipt Card (Left) */
+        .receipt-card {
+            background-color: var(--card-white);
+            left: 40px;
+            top: 10px;
+            transform: rotate(-4deg);
+            z-index: 1;
+            padding: 24px;
+            color: var(--text-dark);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        /* Welcome Card (Right) */
+        .welcome-card {
+            background: linear-gradient(135deg, #b0461f 0%, #852f11 100%);
+            right: 40px;
+            top: 0;
+            transform: rotate(4deg);
+            z-index: 2;
+            padding: 28px;
+            color: #f7eae1;
+            box-shadow: 0 15px 35px rgba(133, 47, 17, 0.25);
+        }
+
+        /* Hover effect to Fan Out */
+        .cards-wrapper:hover .receipt-card {
+            transform: translate(-40px, -5px) rotate(-8deg);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .cards-wrapper:hover .welcome-card {
+            transform: translate(40px, 5px) rotate(8deg);
+            box-shadow: 0 20px 45px rgba(133, 47, 17, 0.35);
+        }
+
+        .hover-hint {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent-orange);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Receipt Inner Content */
+        .receipt-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        
+        .receipt-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .receipt-dates {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            border-top: 1px dashed rgba(0,0,0,0.1);
+            border-bottom: 1px dashed rgba(0,0,0,0.1);
+            padding: 14px 0;
+            margin-bottom: 16px;
+        }
+
+        .date-block-label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .date-block-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .date-block-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 8px;
+            color: #4a4540;
+        }
+
+        .receipt-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-top: 1px solid var(--text-dark);
+            padding-top: 14px;
+            margin-top: 14px;
+        }
+
+        .total-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        .total-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .receipt-footer {
+            margin-top: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .receipt-meta {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #a09890;
+        }
+
+        .barcode {
+            height: 25px;
+            opacity: 0.8;
+        }
+
+        /* Welcome Inner Content */
+        .welcome-label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 30px;
+        }
+
+        .welcome-sun {
+            position: absolute;
+            top: 24px;
+            right: 28px;
+            width: 24px;
+            height: 24px;
+            opacity: 0.8;
+        }
+
+        .welcome-note-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            font-style: italic;
+            opacity: 0.9;
+            margin-bottom: 6px;
+            font-weight: 400;
+        }
+
+        .welcome-host-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #ffffff;
+        }
+
+        .welcome-text {
+            font-size: 13px;
+            line-height: 1.6;
+            opacity: 0.85;
+            font-weight: 400;
+            margin-bottom: 40px;
+        }
+
+        .welcome-room-lbl {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 4px;
+        }
+
+        .welcome-room-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+
+        /* Bottom Cards Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .info-card {
+            background-color: var(--card-white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.01);
+        }
+
+        .info-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .info-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .badge-icon-container {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info-card:nth-child(1) .badge-icon-container {
+            background-color: #b8522b;
+        }
+        .info-card:nth-child(1) .info-badge { color: #b8522b; }
+
+        .info-card:nth-child(2) .badge-icon-container {
+            background-color: #4361ee;
+        }
+        .info-card:nth-child(2) .info-badge { color: #4361ee; }
+
+        .info-card:nth-child(3) .badge-icon-container {
+            background-color: #b14067;
+        }
+        .info-card:nth-child(3) .info-badge { color: #b14067; }
+
+        .badge-icon-container img {
+            width: 14px;
+            height: 14px;
+            filter: brightness(0) invert(1);
+        }
+
+        .card-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            opacity: 0.15;
+        }
+
+        .info-card:nth-child(1) .card-number { color: #b8522b; opacity: 0.3; }
+        .info-card:nth-child(2) .card-number { color: #4361ee; opacity: 0.3; }
+        .info-card:nth-child(3) .card-number { color: #b14067; opacity: 0.3; }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .card-subtitle {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .card-desc {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #55504a;
+        }
+
+        /* Wifi specific block styling */
+        .wifi-field {
+            background-color: #f5f0ea;
+            border-radius: 6px;
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 11px;
+        }
+
+        .wifi-field-lbl {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .wifi-field-val {
+            font-weight: 600;
+        }
+
+        .btn-copy {
+            background-color: var(--card-white);
+            border: 1px solid rgba(0,0,0,0.1);
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 6px;
+        }
+
+        .btn-copy:hover {
+            background-color: var(--accent-light-orange);
+            border-color: var(--accent-orange);
+            color: var(--accent-orange);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Left Sidebar -->
+    <aside>
+        <div>
+            <div class="logo-container">
+                <img src="images/logo.svg" alt="Maison Soleil">
+            </div>
+            <nav>
+                <ul>
+                    <li class="active">
+                        <a href="#">
+                            <img src="images/icon-bed.svg" alt="">
+                            Your stay
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="images/icon-house.svg" alt="">
+                            The house
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="images/icon-pin.svg" alt="">
+                            Around town
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="images/icon-breakfast-outline.svg" alt="">
+                            Breakfast
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="images/icon-mail.svg" alt="">
+                            Messages
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="weather-widget">
+                <div class="weather-label">Today in Cassis</div>
+                <div class="weather-temp">27°</div>
+                <div class="weather-desc">Sunny · light breeze</div>
+                <img src="images/illustration-sun.svg" class="sun-illustration" alt="">
+            </div>
+            <div class="sidebar-info">
+                Est. 1987<br><br>
+                Maison Soleil · 12 Rue des Oliviers · Cassis<br><br>
+                © 2026 Maison Soleil
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+        <div class="top-bar">
+            <div>
+                <div class="subtitle">Booking · Confirmed</div>
+                <h1 class="main-title">Bienvenue, <em>Lucia.</em></h1>
+            </div>
+            <div class="actions">
+                <button class="btn btn-outline">Print receipt</button>
+                <button class="btn btn-dark">Add to calendar</button>
+            </div>
+        </div>
+
+        <!-- Interactive Fanning Cards Section -->
+        <div class="cards-display-container">
+            <div class="cards-wrapper">
+                <!-- Receipt Card -->
+                <div class="fanned-card receipt-card">
+                    <div class="receipt-header">
+                        <span>Receipt</span>
+                        <span style="text-align: right; font-weight: normal; font-size: 8px;">No MS-2026<br>0421-AH</span>
+                    </div>
+                    <div class="receipt-title">Your stay</div>
+                    
+                    <div class="receipt-dates">
+                        <div>
+                            <div class="date-block-label">Check In</div>
+                            <div class="date-block-val">25 Apr</div>
+                            <div class="date-block-sub">Saturday · 15:00</div>
+                        </div>
+                        <div>
+                            <div class="date-block-label">Check Out</div>
+                            <div class="date-block-val">29 Apr</div>
+                            <div class="date-block-sub">Wednesday · 11:00</div>
+                        </div>
+                    </div>
+
+                    <div class="receipt-row">
+                        <span>Room · La Garrigue × 4 nights</span>
+                        <span>€ 620.00</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Breakfast × 2 guests</span>
+                        <span>€ 96.00</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Tourist tax</span>
+                        <span>€ 14.40</span>
+                    </div>
+
+                    <div class="receipt-total">
+                        <span class="total-label">Total Paid</span>
+                        <span class="total-val">€ 730.40</span>
+                    </div>
+
+                    <div class="receipt-footer">
+                        <span class="receipt-meta">Paid · Wise · GBP</span>
+                        <img src="images/icon-barcode.svg" class="barcode" alt="Barcode">
+                    </div>
+                </div>
+
+                <!-- Welcome Card -->
+                <div class="fanned-card welcome-card">
+                    <div class="welcome-label">Welcome Card</div>
+                    <img src="images/icon-sun.svg" class="welcome-sun" alt="">
+                    
+                    <div class="welcome-note-title">A note from your host,</div>
+                    <div class="welcome-host-name">Margaux.</div>
+                    
+                    <div class="welcome-text">
+                        We're so glad you're coming. The shutters will be open, the lemonade cold, and the cat – Poivre – pretending not to notice you.
+                    </div>
+                    
+                    <div class="welcome-room-lbl">Room</div>
+                    <div class="welcome-room-val">La Garrigue</div>
+                </div>
+            </div>
+            <div class="hover-hint">
+                <span>✦</span> Hover to fan <span>✦</span>
+            </div>
+        </div>
+
+        <!-- Info Cards Grid -->
+        <div class="info-grid">
+            <!-- 01 Arrival -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <div class="info-badge">
+                        <div class="badge-icon-container">
+                            <img src="images/icon-key.svg" alt="">
+                        </div>
+                        Arrival
+                    </div>
+                    <div class="card-number">01</div>
+                </div>
+                <h3 class="card-title">Check-in from 15:00</h3>
+                <div class="card-subtitle">Sat, 25 April</div>
+                <p class="card-desc">
+                    Ring the brass bell by the blue door. If we're at the market, the key is in the terracotta pot by the olive tree.
+                </p>
+            </div>
+
+            <!-- 02 Wifi -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <div class="info-badge">
+                        <div class="badge-icon-container">
+                            <img src="images/icon-wifi.svg" alt="">
+                        </div>
+                        Wifi
+                    </div>
+                    <div class="card-number">02</div>
+                </div>
+                <h3 class="card-title">Le Soleil · Guest</h3>
+                <div class="card-subtitle">Password below</div>
+                
+                <div style="margin-top: 12px;">
+                    <div class="wifi-field">
+                        <span class="wifi-field-lbl">Network</span>
+                        <span class="wifi-field-val">Le Soleil · Guest</span>
+                    </div>
+                    <div class="wifi-field">
+                        <span class="wifi-field-lbl">Password</span>
+                        <div style="display: flex; align-items: center;">
+                            <span class="wifi-field-val" style="font-family: monospace;">soleil-2026</span>
+                            <button class="btn-copy">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 03 Breakfast -->
+            <div class="info-card">
+                <div class="info-card-header">
+                    <div class="info-badge">
+                        <div class="badge-icon-container">
+                            <img src="images/icon-breakfast.svg" alt="">
+                        </div>
+                        Breakfast
+                    </div>
+                    <div class="card-number">03</div>
+                </div>
+                <h3 class="card-title">Served 8 – 10:30</h3>
+                <div class="card-subtitle">On the terrace</div>
+                <p class="card-desc">
+                    Fresh figs, Marseille honey, pain au levain, and espresso. Gluten-free option? Leave a note the night before.
+                </p>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
